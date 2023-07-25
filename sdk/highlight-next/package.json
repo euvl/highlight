@@ -39,14 +39,13 @@
 	"author": "",
 	"license": "ISC",
 	"peerDependencies": {
-		"highlight.run": ">=3.0.0",
+		"@highlight-run/node": "workspace:^",
+		"highlight.run": "workspace:^",
 		"next": ">=12",
 		"react": ">=17"
 	},
 	"dependencies": {
-		"@highlight-run/node": "workspace:*",
-		"@highlight-run/sourcemap-uploader": "workspace:*",
-		"highlight.run": "workspace:*"
+		"@highlight-run/sourcemap-uploader": "workspace:*"
 	},
 	"devDependencies": {
 		"@trpc/server": "^9.27.4",
