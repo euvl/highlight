@@ -9,6 +9,7 @@ import {
 	Injectable,
 	NestInterceptor,
 } from '@nestjs/common'
+import { GqlExecutionContext, GqlContextType } from '@nestjs/graphql'
 import { Observable, throwError } from 'rxjs'
 import { catchError } from 'rxjs/operators'
 
@@ -95,9 +96,13 @@ export class HighlightInterceptor
 	}
 
 	intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-		const ctx = context.switchToHttp()
-		const request = ctx.getRequest()
-		const highlightCtx = NodeH.parseHeaders(request.headers)
+		const type = context.getType<GqlContextType>()
+		const request =
+			type === 'graphql'
+				? GqlExecutionContext.create(context).getContext().req
+				: context.switchToHttp().getRequest()
+  
+	  	const highlightCtx = request && NodeH.parseHeaders(request.headers)
 
 		return next.handle().pipe(
 			catchError((err) => {
